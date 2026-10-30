@@ -78,6 +78,19 @@ section.cat>h2 small{font:600 .8rem system-ui;color:var(--suave)}
 .foto .ctl{position:absolute;right:-6px;bottom:-6px}
 .foto.x{width:auto;height:auto;align-self:flex-end}
 .foto.x .ctl{position:static}
+.topo-i .foto.x{display:none}
+.item.com-ops{flex-direction:column;gap:8px}
+.topo-i{display:flex;gap:14px}
+.ops{border-top:1px solid var(--linha)}
+.op{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--linha)}
+.op:last-child{border-bottom:0;padding-bottom:0}
+.tam{flex:1;font-weight:600}
+.opp{font-weight:800}.opp.p{color:var(--pri)}.opp s{font-weight:400;font-size:.82rem;color:var(--suave);margin-right:6px}
+.op .ctl{display:flex;justify-content:flex-end;min-width:108px}
+.op .add{width:34px;height:34px;font-size:1.3rem;box-shadow:none}
+.op .qtd{box-shadow:none}
+.cons{font-weight:600;font-size:.88rem;color:var(--suave)}
+.grade{align-items:start}
 .add{background:var(--pri);color:#fff;width:38px;height:38px;border-radius:50%;font-size:1.5rem;font-weight:600;line-height:1;box-shadow:0 3px 10px #0004;display:grid;place-items:center}
 .qtd{display:inline-flex;align-items:center;background:var(--bg);border:1.5px solid var(--pri);border-radius:99px;box-shadow:0 3px 10px #0003}
 .qtd button{width:34px;height:36px;font-size:1.2rem;font-weight:700;color:var(--pri)}
@@ -141,8 +154,10 @@ const DIAS=['dom','seg','ter','qua','qui','sex','sab'];
 const NOMES={dom:'Domingo',seg:'Segunda',ter:'Terça',qua:'Quarta',qui:'Quinta',sex:'Sexta',sab:'Sábado'};
 let D,cart={},meta={nome:'',tipo:'Entrega',end:''},filtro='',lock=false;
 const brl=v=>Number(v).toLocaleString('pt-BR',{style:'currency',currency:D?.moeda||'BRL'});
-const preco=i=>i.preco_promocional!=null?i.preco_promocional:i.preco;
-const emPromo=i=>i.preco_promocional!=null||i.promocao;
+const efetivo=i=>i.preco_promocional!=null?i.preco_promocional:i.preco;
+const emPromo=i=>i.preco_promocional!=null||i.promocao||(i.ops||[]).some(o=>o.antigo!=null);
+const pv=l=>l.preco??0;
+const precoHtml=l=>l.preco==null?'<span class="cons">Consulte o valor</span>':(l.antigo!=null?`<s>${brl(l.antigo)}</s>`:'')+brl(l.preco);
 const WPP='<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.3-1.9 1.3-.5.1-1.1.1-3.6-.9-3-1.3-4.9-4.3-5-4.5-.1-.2-1.2-1.6-1.2-3s.8-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.8-.2 1.6z"/></svg>';
 const PIN='<svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.500a2.500 2.500 0 0 1 0 5z"/></svg>';
 const LUPA='<svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 1 0 4.9 14.300l5.400 5.400 1.400-1.400-5.400-5.400A8 8 0 0 0 10 2zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12z"/></svg>';
@@ -170,13 +185,20 @@ async function init(){
   document.title=D.nome+' – Cardápio';
   document.querySelector('meta[name=theme-color]').content=t.primaria||'#c8402a';
   try{cart=JSON.parse(localStorage.getItem('cart_'+slug))||{};meta={...meta,...JSON.parse(localStorage.getItem('meta_'+slug)||'{}')};}catch(e){}
-  D.categorias=(D.categorias||[]).map((c,ci)=>({...c,itens:(c.itens||[]).map((it,ii)=>({...it,id:ci+'-'+ii}))}));
+  D.lookup={};
+  D.categorias=(D.categorias||[]).map((c,ci)=>({...c,itens:(c.itens||[]).map((it,ii)=>{
+    const id=ci+'-'+ii;it={...it,id};
+    if(Array.isArray(it.opcoes_tamanho)&&it.opcoes_tamanho.length){
+      it.ops=it.opcoes_tamanho.map((o,oi)=>{const oid=id+'-'+oi;
+        return D.lookup[oid]={id:oid,tam:o.tamanho,nome:`${it.nome} (${o.tamanho})`,preco:efetivo(o)??null,antigo:o.preco_promocional!=null?o.preco:null};});
+    }else D.lookup[id]={id,nome:it.nome,preco:efetivo(it)??null,antigo:it.preco_promocional!=null?it.preco:null};
+    return it;})})).filter(c=>c.itens.length);
   const promos=D.categorias.flatMap(c=>c.itens).filter(emPromo);
   D.todas=promos.length?[{nome:'Promoções',itens:promos,promoCat:true},...D.categorias]:D.categorias;
   Object.keys(cart).forEach(k=>{if(!findItem(k))delete cart[k]});
   render();
 }
-const findItem=id=>D.categorias.flatMap(c=>c.itens).find(i=>i.id===id);
+const findItem=id=>D.lookup[id];
 
 function render(){
   const num=(D.whatsapp||'').replace(/\D/g,'');
@@ -216,11 +238,17 @@ function menu(){
 }
 function card(i){
   const p=emPromo(i);
-  const info=`<div class="tx">${(p||i.selo)?`<span class="tag">${esc(i.selo||'Promoção')}</span>`:''}<h3>${esc(i.nome)}</h3>${i.descricao?`<p class="desc">${esc(i.descricao)}</p>`:''}
-    <div class="preco ${i.preco_promocional!=null?'p':''}">${i.preco_promocional!=null?`<s>${brl(i.preco)}</s>`:''}${brl(preco(i))}</div></div>`;
-  return `<article class="item ${p?'promo':''}" data-id="${i.id}">${info}${i.imagem
-    ?`<div class="foto"><img src="${esc(i.imagem)}" alt="${esc(i.nome)}" loading="lazy" onerror="this.parentNode.classList.add('x');this.remove()"><span class="ctl"></span></div>`
-    :`<div class="lado"><span></span><span class="ctl"></span></div>`}</article>`;
+  const tag=(p||i.selo)?`<span class="tag">${esc(i.selo||'Promoção')}</span>`:'';
+  const img=i.imagem?`<img src="${esc(i.imagem)}" alt="${esc(i.nome)}" loading="lazy" onerror="this.parentNode.classList.add('x');this.remove()">`:'';
+  if(i.ops){
+    return `<article class="item com-ops ${p?'promo':''}"><div class="topo-i"><div class="tx">${tag}<h3>${esc(i.nome)}</h3>${i.descricao?`<p class="desc">${esc(i.descricao)}</p>`:''}</div>${img?`<div class="foto">${img}</div>`:''}</div>
+      <div class="ops">${i.ops.map(o=>`<div class="op"><span class="tam">${esc(o.tam)}</span><span class="opp ${o.antigo!=null?'p':''}">${precoHtml(o)}</span><span class="ctl" data-ctl="${o.id}"></span></div>`).join('')}</div></article>`;
+  }
+  const l=D.lookup[i.id];
+  return `<article class="item ${p?'promo':''}"><div class="tx">${tag}<h3>${esc(i.nome)}</h3>${i.descricao?`<p class="desc">${esc(i.descricao)}</p>`:''}
+    <div class="preco ${l.antigo!=null?'p':''}">${precoHtml(l)}</div></div>${img
+    ?`<div class="foto">${img}<span class="ctl" data-ctl="${i.id}"></span></div>`
+    :`<div class="lado"><span></span><span class="ctl" data-ctl="${i.id}"></span></div>`}</article>`;
 }
 function ctl(id){
   const n=cart[id]?.q||0;
@@ -263,10 +291,10 @@ function mudar(id,d){
   if(c.q<=0)delete cart[id];else cart[id]=c;
   atualiza();if($('#gaveta').classList.contains('vis'))gaveta();
 }
-const total=()=>Object.entries(cart).reduce((s,[id,c])=>s+preco(findItem(id))*c.q,0);
+const total=()=>Object.entries(cart).reduce((s,[id,c])=>s+pv(findItem(id))*c.q,0);
 const qtotal=()=>Object.values(cart).reduce((s,c)=>s+c.q,0);
 function atualiza(){
-  document.querySelectorAll('.item').forEach(el=>el.querySelector('.ctl').innerHTML=ctl(el.dataset.id));
+  document.querySelectorAll('[data-ctl]').forEach(el=>el.innerHTML=ctl(el.dataset.ctl));
   const n=qtotal(),b=$('#barra'),c2=$('#abrir2');
   b.classList.toggle('vis',n>0);
   b.innerHTML=n?`<button id="abrir"><span>Ver carrinho (${n})</span><span>${brl(total())}</span></button>`:'';
@@ -276,7 +304,7 @@ function atualiza(){
 function gaveta(){
   const ids=Object.keys(cart),g=$('#gaveta');
   g.innerHTML=`<header><h2>Seu pedido</h2><button class="fechar" id="fx" aria-label="Fechar">×</button></header>
-  <div class="corpo">${ids.length?ids.map(id=>{const i=findItem(id),c=cart[id];return `<div class="li"><div class="l1"><span>${esc(i.nome)}</span><span>${brl(preco(i)*c.q)}</span></div>
+  <div class="corpo">${ids.length?ids.map(id=>{const i=findItem(id),c=cart[id];return `<div class="li"><div class="l1"><span>${esc(i.nome)}</span><span>${i.preco==null?'a combinar':brl(i.preco*c.q)}</span></div>
     <input data-obs="${id}" value="${esc(c.obs)}" placeholder="Observação (ex.: sem cebola)" maxlength="120" aria-label="Observação">
     <div class="l2"><span class="qtd"><button data-a="-" data-id="${id}" aria-label="Remover um">−</button><span>${c.q}</span><button data-a="+" data-id="${id}" aria-label="Adicionar um">+</button></span><button class="rm" data-rm="${id}">Remover</button></div></div>`}).join('')
     +`<label class="campo">Seu nome<input id="mn" value="${esc(meta.nome)}" autocomplete="name"></label>
@@ -291,7 +319,7 @@ function enviar(){
   if(!D.whatsapp){alert('Este estabelecimento não configurou um WhatsApp.');return;}
   if(meta.tipo==='Entrega'&&!meta.end.trim()){$('#me').focus();$('#me').style.borderColor='#c0392b';return;}
   let m=`*Novo pedido – ${D.nome}*\n\n`;
-  Object.entries(cart).forEach(([id,c])=>{const i=findItem(id);m+=`${c.q}x ${i.nome} – ${brl(preco(i)*c.q)}\n`+(c.obs?`   _Obs: ${c.obs}_\n`:'');});
+  Object.entries(cart).forEach(([id,c])=>{const i=findItem(id);m+=`${c.q}x ${i.nome} – ${i.preco==null?'valor a combinar':brl(i.preco*c.q)}\n`+(c.obs?`   _Obs: ${c.obs}_\n`:'');});
   m+=`\n*Total: ${brl(total())}*\n\n`;
   if(meta.nome)m+=`Nome: ${meta.nome}\n`;
   m+=`Tipo: ${meta.tipo}\n`+(meta.tipo==='Entrega'?`Endereço: ${meta.end}\n`:'');
