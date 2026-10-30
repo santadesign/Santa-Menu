@@ -26,17 +26,90 @@
   },
   "categorias": [
     {
-      "nome": "Pratos Principais",
+      "nome": "Nossos Pratos",
       "itens": [
-        { "nome": "Marmitex Executiva", "descricao": "Arroz, feijão, carne, acompanhamentos do dia e salada.", "preco": 25.0, "imagem": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=70", "selo": "Mais pedido" }
+        {
+          "nome": "Frango a Milanesa",
+          "opcoes_tamanho": [
+            { "tamanho": "Pequena", "preco": 20.00 },
+            { "tamanho": "Média", "preco": 22.00 },
+            { "tamanho": "Grande", "preco": 25.00 }
+          ]
+        },
+        {
+          "nome": "Calabresa Acebolada",
+          "opcoes_tamanho": [
+            { "tamanho": "Pequena", "preco": 20.00 },
+            { "tamanho": "Média", "preco": 22.00 },
+            { "tamanho": "Grande", "preco": 25.00 }
+          ]
+        },
+        {
+          "nome": "Omelete de Calabresa",
+          "opcoes_tamanho": [
+            { "tamanho": "Pequena", "preco": 20.00 },
+            { "tamanho": "Média", "preco": 22.00 },
+            { "tamanho": "Grande", "preco": 25.00 }
+          ]
+        },
+        {
+          "nome": "Bife com Fritas",
+          "opcoes_tamanho": [
+            { "tamanho": "Pequena", "preco": 21.00 },
+            { "tamanho": "Média", "preco": 24.00 },
+            { "tamanho": "Grande", "preco": 30.00 }
+          ]
+        },
+        {
+          "nome": "Bife com Ovo",
+          "opcoes_tamanho": [
+            { "tamanho": "Pequena", "preco": 21.00 },
+            { "tamanho": "Média", "preco": 24.00 },
+            { "tamanho": "Grande", "preco": 30.00 }
+          ]
+        },
+        {
+          "nome": "Bife a Milanesa",
+          "opcoes_tamanho": [
+            { "tamanho": "Pequena", "preco": 21.00 },
+            { "tamanho": "Média", "preco": 24.00 },
+            { "tamanho": "Grande", "preco": 30.00 }
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "Nossas Parmegianas",
+      "itens": [
+        {
+          "nome": "Frango Parmegiana",
+          "opcoes_tamanho": [
+            { "tamanho": "Pequena", "preco": 22.00 },
+            { "tamanho": "Média", "preco": 25.00 },
+            { "tamanho": "Grande", "preco": 30.00 }
+          ]
+        },
+        {
+          "nome": "Bife a Parmegiana",
+          "opcoes_tamanho": [
+            { "tamanho": "Pequena", "preco": 22.00 },
+            { "tamanho": "Média", "preco": 26.00 },
+            { "tamanho": "Grande", "preco": 31.00 }
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "Sobremesa",
+      "itens": [
+        {
+          "nome": "Sorvetes Nestlé"
+        }
       ]
     },
     {
       "nome": "Bebidas",
-      "itens": [
-        { "nome": "Refrigerante lata", "descricao": "Coca-Cola, Guaraná ou Fanta – 350ml.", "preco": 6.5 },
-        { "nome": "Suco natural", "descricao": "Laranja ou limão – 400ml.", "preco": 9.0 }
-      ]
+      "itens": []
     }
   ]
 }
