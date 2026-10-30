@@ -1,0 +1,42 @@
+{
+  "nome": "Restaurante da Marta",
+  "slogan": "Comida caseira e saborosa",
+  "logo": "",
+  "capa": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1400&q=70",
+  "whatsapp": "551123756717",
+  "moeda": "BRL",
+  "tema": {
+    "primaria": "#b7371f",
+    "secundaria": "#f2b84b",
+    "fundo": "#fbf7f1",
+    "texto": "#2a211c",
+    "fonte_titulo": "Fraunces"
+  },
+  "endereco": "R. Vice-Presidente Francisco Álvaro Bueno de Paiva, 111 - Parque Sao Vicente, Mauá - SP, 09371-130",
+  "mapa_url": "https://www.google.com/maps/place/?q=place_id:ChIJx-jRsTJpzpQRzwfHmsAuhqI",
+  "mapa_embed": "",
+  "horarios": {
+    "seg": "11:00-15:00",
+    "ter": "11:00-15:00",
+    "qua": "11:00-15:00",
+    "qui": "11:00-15:00",
+    "sex": "11:00-15:00",
+    "sab": "11:00-15:00",
+    "dom": null
+  },
+  "categorias": [
+    {
+      "nome": "Pratos Principais",
+      "itens": [
+        { "nome": "Marmitex Executiva", "descricao": "Arroz, feijão, carne, acompanhamentos do dia e salada.", "preco": 25.0, "imagem": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=70", "selo": "Mais pedido" }
+      ]
+    },
+    {
+      "nome": "Bebidas",
+      "itens": [
+        { "nome": "Refrigerante lata", "descricao": "Coca-Cola, Guaraná ou Fanta – 350ml.", "preco": 6.5 },
+        { "nome": "Suco natural", "descricao": "Laranja ou limão – 400ml.", "preco": 9.0 }
+      ]
+    }
+  ]
+}
