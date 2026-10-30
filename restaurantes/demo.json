@@ -1,0 +1,59 @@
+{
+  "nome": "Brasa & Massa",
+  "slogan": "Hambúrgueres artesanais e pizzas no forno a lenha",
+  "logo": "",
+  "capa": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1400&q=70",
+  "whatsapp": "5511999999999",
+  "moeda": "BRL",
+  "tema": {
+    "primaria": "#b7371f",
+    "secundaria": "#f2b84b",
+    "fundo": "#fbf7f1",
+    "texto": "#2a211c",
+    "fonte_titulo": "Fraunces"
+  },
+  "endereco": "Rua das Flores, 123 – Centro, Mauá – SP",
+  "mapa_url": "https://www.google.com/maps/search/?api=1&query=Mauá+SP",
+  "mapa_embed": "",
+  "horarios": {
+    "seg": null,
+    "ter": "18:00-23:00",
+    "qua": "18:00-23:00",
+    "qui": "18:00-23:00",
+    "sex": "18:00-00:30",
+    "sab": ["12:00-15:00", "18:00-00:30"],
+    "dom": "12:00-22:00"
+  },
+  "categorias": [
+    {
+      "nome": "Hambúrgueres",
+      "itens": [
+        { "nome": "Clássico da Casa", "descricao": "Blend 160g, queijo prato, alface, tomate e molho da casa no pão brioche.", "preco": 29.9, "imagem": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=70", "selo": "Mais pedido" },
+        { "nome": "Duplo Bacon", "descricao": "Dois blends de 120g, cheddar, bacon crocante e cebola caramelizada.", "preco": 38.9, "preco_promocional": 32.9, "imagem": "https://images.unsplash.com/photo-1550547660-d9450f859349?w=400&q=70" },
+        { "nome": "Veggie", "descricao": "Burger de grão-de-bico, rúcula, tomate seco e maionese de ervas.", "preco": 27.0 }
+      ]
+    },
+    {
+      "nome": "Pizzas",
+      "itens": [
+        { "nome": "Margherita", "descricao": "Molho de tomate, mussarela de búfala e manjericão fresco.", "preco": 49.0, "imagem": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=70" },
+        { "nome": "Calabresa Acebolada", "descricao": "Calabresa fatiada, cebola roxa e azeitonas pretas.", "preco": 46.0 },
+        { "nome": "Quatro Queijos", "descricao": "Mussarela, gorgonzola, parmesão e catupiry.", "preco": 54.0, "promocao": true, "selo": "Terça em dobro" }
+      ]
+    },
+    {
+      "nome": "Bebidas",
+      "itens": [
+        { "nome": "Refrigerante lata", "descricao": "Coca-Cola, Guaraná ou Fanta – 350ml.", "preco": 6.5 },
+        { "nome": "Suco natural", "descricao": "Laranja, limão ou maracujá – 400ml.", "preco": 9.0 },
+        { "nome": "Cerveja long neck", "preco": 12.0 }
+      ]
+    },
+    {
+      "nome": "Sobremesas",
+      "itens": [
+        { "nome": "Petit gâteau", "descricao": "Bolo quente de chocolate com sorvete de creme.", "preco": 22.0, "imagem": "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=400&q=70" }
+      ]
+    }
+  ]
+}
